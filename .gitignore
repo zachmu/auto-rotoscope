@@ -1,3 +1,9 @@
 _ReSharper.*/
 *.dat
 *.dll
+*/*/obj/
+*/*/*/obj/
+*/*/*/*/obj/
+*/*/bin/
+*/*/*/bin/
+*/*/*/*/bin/
