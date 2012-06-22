@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using JockerSoft.Media;
 
 namespace DeRez {
     public partial class Form1 : Form {
@@ -16,58 +17,119 @@ namespace DeRez {
         private int _targetWidth = 64;
         private int _targetHeight = 128;
         private Rectangle _cropArea;
+        private int _numFrames;
+        private int _animationSpeed;
+        private int _time;
+        private Timer _timer;
+        private double _animationPercent;
+        private bool _isAnimation;
+        private string _animationPath;
 
-        Boolean bHaveMouse = false;
-        Point ptOriginal = new Point();
-        Point ptLast = new Point(); 
+        private Boolean _haveMouse;
+        private Point _ptOriginal;
+        private Point _ptLast; 
 
         public Form1() {
             _cropArea = new Rectangle(0, 0, _targetWidth, _targetHeight);
             InitializeComponent();
-            src.Resize += (sender, args) => dest.Location = new Point(src.Location.X + src.Width + 5, dest.Location.Y);
+            src.Resize += (sender, args) => {
+                dest.Location = new Point(src.Location.X + src.Width + 5, dest.Location.Y);
+                panel1.Location = new Point(panel1.Location.X, src.Location.Y + src.Image.Height + 10);
+            };
             src.Paint += SrcPicBox_Paint;
             src.MouseDown += SrcPicBox_MouseDown;
             src.MouseMove += SrcPicBox_MouseMove;
             src.MouseUp += SrcPicBox_MouseUp;
 
-            pixelSize.Text = _pixelSize.ToString();
-            darkThreshold.Text = _threshold.ToString();
             targetHeight.Text = _targetHeight.ToString();
             targetWidth.Text = _targetWidth.ToString();
+            _pixelSize = (int) pixelSizeUpDown.Value;
+            _threshold = (float) darkThresholdUpDown.Value;
+            _numFrames = (int) numFramesUpDown.Value;
+            _animationSpeed = animationSpeedTrackBar.Value;
+            darkThresholdUpDown.DecimalPlaces = 3;
+
+            this.KeyPreview = true;
+            this.KeyUp += (sender, args) => {
+                switch (args.KeyCode) {
+                    case Keys.Up:
+                        _cropArea.Y -= 1;
+                        src.Refresh();
+                        DeRez();
+                        break;
+                    case Keys.Down:
+                        _cropArea.Y += 1;
+                        src.Refresh();
+                        DeRez();
+                        break;
+                    case Keys.Left:
+                        _cropArea.X -= 1;
+                        src.Refresh();
+                        DeRez();
+                        break;
+                    case Keys.Right:
+                        _cropArea.X += 1;
+                        src.Refresh();
+                        DeRez();
+                        break;
+                }
+            };
+
+            _timer = new Timer();
+            _timer.Interval = 20;
+            _timer.Tick += (sender, args) => UpdateAnimation();
+            _timer.Start();
+        }
+
+        private void UpdateAnimation() {
+            if ( _isAnimation ) {
+                _time++;
+                int framesUntilUpdate = 100 / (_animationSpeed + 1);
+                if ( _time % framesUntilUpdate == 0 ) {
+                    _animationPercent += 1f / (float) _numFrames;
+                    if (_animationPercent > 1) {
+                        _animationPercent = 0;
+                    }
+                    Console.WriteLine("Updated animation to {0}", _animationPercent);
+                    _image = FrameGrabber.GetFrameFromVideo(_animationPath, _animationPercent);
+                    src.Image = _image;
+                    DeRez();
+                }
+            }
         }
 
         private void SrcPicBox_MouseDown(object sender, MouseEventArgs e) {
             // Make a note that we "have the mouse". 
-            bHaveMouse = true;
+            _haveMouse = true;
 
             // Store the "starting point" for this rubber-band rectangle. 
-            ptOriginal.X = e.X;
-            ptOriginal.Y = e.Y;
+            _ptOriginal.X = e.X;
+            _ptOriginal.Y = e.Y;
 
             // Special value lets us know that no previous 
             // rectangle needs to be erased. 
 
-            ptLast.X = -1;
-            ptLast.Y = -1;
+            _ptLast.X = -1;
+            _ptLast.Y = -1;
 
             _cropArea = new Rectangle(new Point(e.X, e.Y), new Size());
         }
 
         private void SrcPicBox_MouseUp(object sender, MouseEventArgs e) {
             // Set internal flag to know we no longer "have the mouse". 
-            bHaveMouse = false;
+            _haveMouse = false;
 
             // If we have drawn previously, draw again in that spot 
             // to remove the lines. 
-            if ( ptLast.X != -1 ) {
+            if ( _ptLast.X != -1 ) {
                 Point ptCurrent = new Point(e.X, e.Y);
             }
 
             // Set flags to know that there is no "previous" line to reverse. 
-            ptLast.X = -1;
-            ptLast.Y = -1;
-            ptOriginal.X = -1;
-            ptOriginal.Y = -1;
+            _ptLast.X = -1;
+            _ptLast.Y = -1;
+            _ptOriginal.X = -1;
+            _ptOriginal.Y = -1;
 
             DeRez();
         }
@@ -76,38 +138,38 @@ namespace DeRez {
             Point ptCurrent = new Point(e.X, e.Y);
 
             // If we "have the mouse", then we draw our lines. 
-            if ( bHaveMouse ) {
+            if ( _haveMouse ) {
                 // If we have drawn previously, draw again in 
                 // that spot to remove the lines. 
 
                 // Update last point. 
-                ptLast = ptCurrent;
+                _ptLast = ptCurrent;
 
                 // Draw new lines. 
 
                 // e.X - _cropArea.X; 
                 // normal 
-                if ( e.X > ptOriginal.X && e.Y > ptOriginal.Y ) {
-                    _cropArea.Width = e.X - ptOriginal.X;
+                if ( e.X > _ptOriginal.X && e.Y > _ptOriginal.Y ) {
+                    _cropArea.Width = e.X - _ptOriginal.X;
 
                     // e.Y - _cropArea.Height; 
-                    _cropArea.Height = e.Y - ptOriginal.Y;
-                } else if ( e.X < ptOriginal.X && e.Y > ptOriginal.Y ) {
-                    _cropArea.Width = ptOriginal.X - e.X;
-                    _cropArea.Height = e.Y - ptOriginal.Y;
+                    _cropArea.Height = e.Y - _ptOriginal.Y;
+                } else if ( e.X < _ptOriginal.X && e.Y > _ptOriginal.Y ) {
+                    _cropArea.Width = _ptOriginal.X - e.X;
+                    _cropArea.Height = e.Y - _ptOriginal.Y;
                     _cropArea.X = e.X;
-                    _cropArea.Y = ptOriginal.Y;
-                } else if ( e.X > ptOriginal.X && e.Y < ptOriginal.Y ) {
-                    _cropArea.Width = e.X - ptOriginal.X;
-                    _cropArea.Height = ptOriginal.Y - e.Y;
+                    _cropArea.Y = _ptOriginal.Y;
+                } else if ( e.X > _ptOriginal.X && e.Y < _ptOriginal.Y ) {
+                    _cropArea.Width = e.X - _ptOriginal.X;
+                    _cropArea.Height = _ptOriginal.Y - e.Y;
 
-                    _cropArea.X = ptOriginal.X;
+                    _cropArea.X = _ptOriginal.X;
                     _cropArea.Y = e.Y;
                 } else {
-                    _cropArea.Width = ptOriginal.X - e.X;
+                    _cropArea.Width = _ptOriginal.X - e.X;
 
                     // e.Y - _cropArea.Height; 
-                    _cropArea.Height = ptOriginal.Y - e.Y;
+                    _cropArea.Height = _ptOriginal.Y - e.Y;
                     _cropArea.X = e.X;
                     _cropArea.Y = e.Y;
                 }
@@ -158,14 +220,20 @@ namespace DeRez {
         private void button2_Click(object sender, EventArgs e) {
             this.openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;
-            _image = Image.FromFile(path);
-            src.Image = _image;
-            //_cropArea = new Rectangle(0, 0, _image.Width, _image.Height);
-            DeRez();
-        }
+            if ( path != null ) {
+                if (path.EndsWith(".avi")) {
+                    _image = FrameGrabber.GetFrameFromVideo(path, .5d);
+                    _isAnimation = true;
+                    _animationPath = path;
+                } else {
+                    _image = Image.FromFile(path);
+                    _isAnimation = false;
+                }
 
-        private void button1_Click(object sender, EventArgs e) {
-            DeRez();
+                src.Image = _image;
+                //_cropArea = new Rectangle(0, 0, _image.Width, _image.Height);
+                DeRez();
+            }
         }
 
         private void DeRez() {
@@ -195,27 +263,12 @@ namespace DeRez {
 
                 output = ResizeImage(output, _targetWidth, _targetHeight);
                 dest.Image = output;
+                this.Refresh();
             }
         }
 
         private bool IsPixelDark(Color pixel) {
             return pixel.GetBrightness() < _threshold;
-        }
-
-        private void pixelSize_TextChanged(object sender, EventArgs e) {
-            int parse;
-            if ( Int32.TryParse(pixelSize.Text, out parse) ) {
-                _pixelSize = parse;
-                DeRez();
-            }
-        }
-
-        private void darkThreshold_TextChanged(object sender, EventArgs e) {
-            float parse;
-            if ( float.TryParse(darkThreshold.Text, out parse) ) {
-                _threshold = parse;
-                DeRez();
-            }
         }
 
         /// <summary>
@@ -225,7 +278,7 @@ namespace DeRez {
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
-        public static Bitmap ResizeImage(System.Drawing.Image image, int width, int height) {
+        private static Bitmap ResizeImage(System.Drawing.Image image, int width, int height) {
             //a holder for the result
             Bitmap result = new Bitmap(width, height);
 
@@ -257,6 +310,25 @@ namespace DeRez {
                 _targetHeight = parse;
                 DeRez();
             }
+        }
+
+        private void pixelSizeUpDown_ValueChanged(object sender, EventArgs e) {
+            _pixelSize = (int) pixelSizeUpDown.Value;
+            DeRez();
+        }
+
+        private void numFramesUpDown_ValueChanged(object sender, EventArgs e) {
+            _numFrames = (int) numFramesUpDown.Value;
+            DeRez();            
+        }
+
+        private void darkThresholdUpDown_ValueChanged(object sender, EventArgs e) {
+            _threshold = (float) darkThresholdUpDown.Value;
+            DeRez();
+        }
+
+        private void animationSpeedTrackBar_Scroll(object sender, EventArgs e) {
+            _animationSpeed = animationSpeedTrackBar.Value;
         }
 
     }
