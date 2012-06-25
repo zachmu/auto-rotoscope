@@ -217,11 +217,16 @@ namespace DeRez {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e) {
             this.openFileDialog1.ShowDialog();
             string path = openFileDialog1.FileName;
             if ( path != null ) {
-                if (path.EndsWith(".avi")) {
+                if ( path.EndsWith(".avi") || path.EndsWith(".mp4") ) {
                     _image = FrameGrabber.GetFrameFromVideo(path, .5d);
                     _isAnimation = true;
                     _animationPath = path;

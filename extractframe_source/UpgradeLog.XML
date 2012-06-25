@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="FrameGrabber">
+</Property><Property Name="Solution File" Value="C:\Users\Zach Musgrave\Downloads\extractframe_source\FrameGrabber.sln">
+</Property><Property Name="Date" Value="Friday, June 22, 2012">
+</Property><Property Name="Time" Value="10:46 AM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="FrameGrabber.sln" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\FrameGrabber.sln">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="FrameGrabber.csproj" Description="Project file successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\FrameGrabber.csproj">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="AssemblyInfo.cs" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="FrameGrabber.cs" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\FrameGrabber.cs">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="GUIDS.cs" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\GUIDS.cs">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="key.snk" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\key.snk">
+</Event><Event ErrorLevel="1" Project="FrameGrabber" Source="FrameGrabber.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="FrameGrabber.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="FrameGrabber" Source="FrameGrabber.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\Test.csproj" Description="Project file successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\Test\Test.csproj">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\AssemblyInfo.cs" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\Test\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\Form1.cs" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\Test\Form1.cs">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\App.ico" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\Test\App.ico">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\Form1.resx" Description="File successfully backed up as C:\Users\Zach Musgrave\Downloads\extractframe_source\Backup\Test\Form1.resx">
+</Event><Event ErrorLevel="1" Project="Test" Source="Test\Test.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\Test.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Test" Source="Test\Test.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="FrameGrabber.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="FrameGrabber.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="FrameGrabber" Source="FrameGrabber.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Test" Source="Test\Test.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

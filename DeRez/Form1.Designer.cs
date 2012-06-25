@@ -156,7 +156,7 @@
             // darkThresholdUpDown
             // 
             this.darkThresholdUpDown.Increment = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             131072});
@@ -226,6 +226,11 @@
             // numFramesUpDown
             // 
             this.numFramesUpDown.Location = new System.Drawing.Point(282, 30);
+            this.numFramesUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numFramesUpDown.Name = "numFramesUpDown";
             this.numFramesUpDown.Size = new System.Drawing.Size(69, 20);
             this.numFramesUpDown.TabIndex = 11;
