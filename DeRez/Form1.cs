@@ -336,5 +336,24 @@ namespace DeRez {
             _animationSpeed = animationSpeedTrackBar.Value;
         }
 
+        private void button1_Click(object sender, EventArgs e) {
+            folderBrowserDialog1.ShowDialog();
+            string selectedPath = folderBrowserDialog1.SelectedPath;
+            ExportImages(selectedPath);
+        }
+
+        private void ExportImages(string selectedPath) {
+            _timer.Stop();
+            for ( int i = 0; i <= _numFrames; i++ ) {
+                float percent = i / (float) _numFrames;
+                Console.WriteLine("Exporting frame at {0}", percent);
+                _image = FrameGrabber.GetFrameFromVideo(_animationPath, percent);
+                src.Image = _image;
+                DeRez();
+                string fileName = String.Format("{0}/{1:0000}.png", selectedPath, i) ;
+                dest.Image.Save(fileName);
+            }
+            _timer.Start();
+        }
     }
 }

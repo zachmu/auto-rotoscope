@@ -40,6 +40,8 @@
             this.animationSpeedTrackBar = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
             this.numFramesUpDown = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.src)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pixelSizeUpDown)).BeginInit();
@@ -178,6 +180,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.animationSpeedTrackBar);
             this.panel1.Controls.Add(this.label5);
@@ -241,6 +244,16 @@
             0});
             this.numFramesUpDown.ValueChanged += new System.EventHandler(this.numFramesUpDown_ValueChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(376, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(135, 23);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Export Images";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +297,8 @@
         private System.Windows.Forms.TrackBar animationSpeedTrackBar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numFramesUpDown;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 
