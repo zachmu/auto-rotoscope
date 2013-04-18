@@ -1,0 +1,11 @@
+# auto-rotoscope
+
+Tool for game creators to automate rotoscoping motion-capture video into sprites, using basic silhouette detection. Uses Windows Forms for the front end.
+
+For screeenshots, see:
+
+http://gamedev.sleptlate.org/blog/99-2d-pixel-graphic-motion-capture/
+
+A video of the results of the program, after additional manual editing:
+
+http://www.youtube.com/watch?feature=player_embedded&v=kvUz2-XBPq4
